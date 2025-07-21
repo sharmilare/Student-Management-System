@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>StudentRegisteration</title>
+    <link rel="stylesheet" href="../css/studentregisteration.css">
+    <link href="../css/toast.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+        <!-- This code for header -->
+        <nav class="navbar navbar-expand-lg" id="header">
+            <a href="../html/Homepage.html">
+                <img src="../assests/login.jpg" id="logo" class="rounded-circle" alt="Logo" />
+            </a>
+
+            <div class="d-flex justify-content-center m-3 font-weight-bold">
+                Student Management System
+            </div>
+
+            <div class="navbar-collapse justify-content-end mx-2 font-weight-bold head">
+                <a href="../html/Homepage.html" class="mx-3 head-item">Home</a>
+                <a href="../html/StudentRegisteration.html" class="mx-3 head-item">New Registration</a>
+                <a href="../html/addState.html" class="mx-3 head-item">State</a>
+                <a href="../html/addcity.html" class="mx-3 head-item">City</a>
+                <a href="../html/LoginPage.html?status=signout">
+                    <span class="text-danger font-weight-bold"><i class="fas fa-sign-out-alt"></i> Sign Out</span>
+                </a>
+            </div>
+        </nav>
+        <!-- This modal shows StudentRegisterationForm -->
+        <div class="mt-3 d-flex justify-content-end">
+            <div class="d-flex mr-2">
+                <input class="form-control" type="text" placeholder="Enter value" id="textbox">
+                <button class="btn btn-primary pb-0 pt-0   text-center ml-md-n1" type="submit" id="searchbutton"
+                    disabled><span class="text-center">Search</span></button>
+            </div>
+            <div>
+                <button class="btn btn-warning text-light" onclick="clearbutton()" id="clear" disabled>Clear</button>
+            </div>
+            <div class="ml-2">
+                <button class="btn-md btn btn-success text-light" data-toggle="modal" id="addNewUser"><i
+                        class="fa-solid fa-plus"></i>&nbsp;Add Student Registeration</button>
+            </div>
+        </div>
+        <div id="searchalignment"><span class="text-danger text-left" id="searcherror"></span></div>
+        <!-- data-target="#adddata"    -->
+        <div id="adddata" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg shadow-sm p-3 mb-5 bg-light rounded">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="h3 text-info text-center  d-block mx-auto">Student Registeration</div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="font-weight-bold form-label">First Name <span
+                                                class="text-danger">*</span></label>
+                                    </div>
+                                    <div>
+                                        <input type="text" class="form-control" placeholder="Enter First Name"
+                                            id="firstName" oninput="this.value = this.value.replace(/[^a-zA-Z]/g,'')" />
+
+                                        <div class="text-danger" id="error2"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="font-weight-bold form-label">Gender <span
+                                                class="text-danger">*</span></label>
+                                    </div>
+
+                                    <input type="radio" id="male" name="gender" value="Male">
+                                    <label for="male">Male</label>
+
+                                    <input type="radio" id="female" name="gender" value="Female">
+                                    <label for="female ">Female</label>
+
+                                    <input type="radio" id="other" name="gender" value="Others">
+                                    <label for="others">Others</label>
+                                    <div class="text-danger" id="error4"></div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="font-weight-bold form-label">Last Name <span
+                                                class="text-danger">*</span></label>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="lastName" class="form-control"
+                                            placeholder="Enter Last name"
+                                            oninput="this.value = this.value.replace(/[^a-zA-Z ]/g, '')">
+                                        <div class="text-danger" id="error3"></div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="font-weight-bold form-label">Email<span
+                                                class="text-danger">*</span></label>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="email" class="form-control" placeholder="Enter an Email">
+                                        <div class="text-danger" id="error6"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="font-weight-bold form-label">
+                                            State
+                                        </label>
+                                        <div>
+                                            <select id="state" class="form-control">
+                                                <option value="">Select State</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="font-weight-bold form-label">Date Of Birth</label>
+                                    </div>
+                                    <div>
+                                        <input type="date" id="dob" class="form-control"
+                                            placeholder="Enter a DateOfBirth">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="font-weight-bold form-label">City</label>
+                                    </div>
+                                    <div>
+                                        <select id="city" class="form-control" disabled>
+                                            <!--  -->
+                                            <option value="">Select city</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="font-weight-bold form-label">Phone Number
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="phone" class="form-control"
+                                            placeholder="Enter a Phone Number" maxlength="10" inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g,'')"
+                                            onkeypress="return event.charCode >= 48 && event.charCode <= 57" disabled>
+
+                                        <div class="text-danger" id="error5"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="save">Save</button>
+                        <button type="button" class="btn btn-primary d-none" id="update">Update</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            onclick="clearform()">Cancel</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Toast save nodification -->
+        <div class="toastdisplay" id="savetoast">
+            <div class="toastdisplay-content">
+                <i class="fas fa-check"></i>
+                <div class="message">
+                    <span class="text">Record Created Successfully</span>
+                </div>
+            </div>
+            <i class="fas fa-times close" id="closesaveToast"></i>
+            <div class="progress" id="saveprogressBar"></div>
+        </div>
+
+        <!-- delete toast -->
+        <div class="toastdisplay" id="deletetoast">
+            <div class="toastdisplay-content">
+                <i class="fas fa-check"></i>
+                <div class="message">
+                    <span class="text">Record Deleted Successfully</span>
+                </div>
+            </div>
+            <i class="fas fa-times close" id="closedeleteToast"></i>
+            <div class="progress" id="deleteprogressBar"></div>
+        </div>
+
+        <!-- update toast -->
+        <div class="toastdisplay" id="updatetoast">
+            <div class="toastdisplay-content">
+                <i class="fas fa-check"></i>
+                <div class="message">
+                    <span class="text">Record Updated Successfully</span>
+                </div>
+            </div>
+            <i class="fas fa-times close" id="closeupdateToast"></i>
+            <div class="progress" id="updateprogressBar"></div>
+        </div>
+        <!-- Displaying delete toast -->
+        <div class="modal fade" role="dialog" id="deletedata">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header font-weight-bold">
+                        Delete Confirmation
+                    </div>
+                    <div class="modal-body">
+                        Are you sure want to delete it...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="deleteok()">Ok</button>
+                        <button type="button" class="btn btn-danger" onclick="deletecancel()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- This table data -->
+        <table class="table table-md table-bordered table-striped mt-2 mb-2">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th id="widthfirstname"><span class="mr-1 m-0">First Name</span><span><span><button
+                                    class="btn m-0 p-0" id="ascendingorder"><span id="uparrowfirstname" class=""><i
+                                        class="fa-solid fa-arrow-up"></i></span></button></span><span><button
+                                    id="descendingorder" class="btn m-0 p-0"><span id="downarrowfirstname"><i
+                                        class="fa-solid fa-arrow-down"></span></i></button></span></span></th>
+                    <th id="widthsecondname" class="text-center"><span class="mr-1 m-0">Second
+                            Name</span><span><span><button class="btn m-0 p-0" id="ascendingorderlastname"><span id="uparrowlastname"><i
+                                        class="fa-solid fa-arrow-up"></i></span></button></span><span><button
+                                    id="descendingorderlastname" class="btn m-0 p-0"><span id="downarrowlastname"><i
+                                        class="fa-solid fa-arrow-down"></i></span></button></span></span></th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Date Of Birth</th>
+                    <th>Phone Number</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Delete</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody id="tblBody"></tbody>
+
+        </table>
+        <div id="noresulterror" class="text-danger text-center h4"></div>
+        <div id="paginationfixed">
+            <div id="paginationdisplay" class="d-flex justify-content-center flex-wrap"></div>
+        </div>
+    </div>
+    <script src="../javascript/deletetoast.js"></script>
+    <script src="../javascript/savetoast.js"></script>
+    <script src="../javascript/updatetoast.js"></script>
+    <script>
+        //Getting Unique id
+        function uuidv4() {
+            return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+            );
+        }
+        //Storing details in localstorage
+        let users = [];
+        if (localStorage.getItem('students')) {
+            users = JSON.parse(localStorage.getItem('students'));
+        }
+        function saveLocalStorage() {
+            localStorage.setItem('students', JSON.stringify(users));
+            //alert("data stored successfully");
+        }
+        //Displaying details using pagnation
+        let studentdisplay = {
+            'queryset': users,
+            'page': 1,
+            'rows': 5,
+            'window': 5
+        }
+        //Displaying data in webpage
+        function arrayObject() {
+            let paginationData = pagination(studentdisplay.queryset, studentdisplay.page, studentdisplay.rows);
+            let data = '';
+
+            paginationData.queryset.forEach((element, index) => {
+                let indexnum = (studentdisplay.page - 1) * studentdisplay.rows + index + 1;
+                data += `<tr>
+                        <td>${indexnum}</td>
+                        <td>${element.fname}</td>
+                        <td>${element.lname}</td>    
+                        <td>${element.gender}</td>
+                        <td>${element.email}</td>
+                        <td>${element.dob}</td>
+                        <td>${element.phone}</td>
+                        <td>${element.state}</td>
+                        <td>${element.city}</td>
+                        <td><button class="text-danger border-0 bg-transparent" onclick="deletedata(this)" elementdeleteid="${element.id}"><i class="fa-solid fa-trash"></i></button></td>
+                        <td><button class="text-primary border-0 bg-transparent" onclick="editdata(this)" elementupdateid="${element.id}"><i class="fa-solid fa-pen-to-square"></i></button></td>
+                        </tr>`;
+            });
+
+            document.getElementById("tblBody").innerHTML = data;
+            pagebutton(paginationData.pages);
+        }
+        arrayObject();
+        //pagination numbers
+        function pagination(queryset, page, rows) {
+            let trimstart = (page - 1) * rows;
+            let trimend = trimstart + rows
+            let trimenddata = queryset.slice(trimstart, trimend);
+            let pages = Math.ceil(queryset.length / rows);
+            return {
+                'queryset': trimenddata,
+                'pages': pages
+            }
+        }
+        //pagination buttons
+        function pagebutton(pages) {
+            document.getElementById('paginationdisplay').innerHTML = "";
+
+            let maxleft = (studentdisplay.page - Math.floor(studentdisplay.window / 2));
+            let maxright = (studentdisplay.page + Math.floor(studentdisplay.window / 2));
+
+            if (maxleft < 1) {
+                maxleft = 1;
+                maxright = studentdisplay.window;
+            }
+
+            if (maxright > pages) {
+                maxleft = pages - (studentdisplay.window - 1);
+                maxright = pages;
+                if (maxleft < 1) {
+                    maxleft = 1;
+                }
+            }
+            if (studentdisplay.page > 1) {
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${studentdisplay.page - 1}" class="btn btn-md btn-info page m-1"><i class="fa-solid fa-angles-left"></i></button>`;
+            }
+            for (let page = maxleft; page <= maxright; page++) {
+                let className = 'btn btn-md m-1 page ';
+                if (page === studentdisplay.page) {
+                    className += 'btn-dark fw-bold';
+                } else {
+                    className += 'btn-info';
+                }
+
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${page}" class="${className}">${page}</button>`;
+            }
+            if (studentdisplay.page < pages) {
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${studentdisplay.page + 1}" class="btn btn-md btn-info page m-1"><i class="fa-solid fa-angles-right"></i></button>`;
+            }
+            let pageButtons = document.getElementsByClassName('page');
+            for (let i = 0; i < pageButtons.length; i++) {
+                pageButtons[i].addEventListener('click', function () {
+                    studentdisplay.page = Number(this.value);
+                    arrayObject();
+                });
+            }
+        }
+        //Functions
+        //Displaying cities w.r.t state
+        let cities = JSON.parse(localStorage.getItem('citydata')) || [];
+
+        let states = JSON.parse(localStorage.getItem('statedata')) || [];
+        function placestate() {
+            let data = `<option value="">Select State</select>`;
+
+            states.forEach((ele) => {
+                if (ele.status === 'Active')
+                    data += `<option value="${ele.statename}">${ele.statename}</option>`
+            });
+            document.getElementById('state').innerHTML = data;
+        }
+        placestate();
+        //Displaying city dropdown w.r.t statename;
+        function placecity() {
+            let state = document.getElementById('state').value;
+            let data = `<option value="">Select city</option>`;
+            if (state) {
+                let citydata = cities.filter((ele) => ele.state === state && ele.status === 'Active').map(ele => ele.city);
+                citydata.forEach((i) => {
+                    data += `<option value="${i}">${i}</option>`;
+                });
+                document.getElementById("city").disabled = false;
+            }
+            else {
+                document.getElementById("city").disabled = true;
+            }
+            document.getElementById('city').innerHTML = data;
+        }
+        document.getElementById("state").addEventListener("change", placecity);
+
+        //Validating an email
+        function ValidateEmail(email) {
+            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            return pattern.test(email);
+        }
+        //Validating email address while updating
+        function Validemailupdate(email, presentuser, users) {
+            let getemail = users.some((ele) => {
+                return ele.email === email && ele.id != presentuser.id;
+            });
+            if (!getemail) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        //validating email while adding
+        function ValidExistemail(email) {
+            let getvalid = users.some(ele => ele.email === email)
+            if (getvalid) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        //Validating a phone number
+        function ValidPhoneNumber(phoneNumber) {
+            let findnumber = users.find(i => i.phone === phoneNumber);
+            if (findnumber) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        // validating phonennumber while updating user
+        function ValidPhoneNumberupdate(phoneNumber, presentuser, users) {
+            let getvalid = users.some(user => {
+                return user.phone === phoneNumber && user.id != presentuser.id;
+            });
+            if (!getvalid) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+
+        //Validating a names
+        function ValidName(name) {
+            var namePattern = /^[a-zA-Z\s-]+$/;
+            namevalid = name;
+
+            if (!namePattern.test(name)) {
+                return false;
+            }
+            return true;
+        }
+        //By addEventlistener displaying form to save detalis of Student 
+        function addstudent() {
+            let fname = document.getElementById("firstName").value;
+            let lname = document.getElementById("lastName").value;
+            let gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+            let email = document.getElementById("email").value;
+            let dob = document.getElementById("dob").value;
+            let phone = document.getElementById("phone").value;
+            let state = document.querySelector('#state').value;
+            let city = document.querySelector('#city').value;
+            let valid = true;
+
+            if (!fname) {
+                document.getElementById("error2").innerHTML = "Please enter Firstname";
+                valid = false;
+            }
+            else if (!ValidName(fname)) {
+                document.getElementById("error2").innerHTML = "Please enter valid Firstname";
+                valid = false;
+            }
+            else {
+                document.getElementById("error2").innerHTML = "";
+            }
+            if (!lname) {
+                document.getElementById("error3").innerHTML = "Please enter Lastname"
+                valid = false;
+            }
+            else if (!ValidName(lname)) {
+                document.getElementById("error3").innerHTML = "Please enter valid Lastname";
+                valid = false;
+            }
+            else {
+                document.getElementById("error3").innerHTML = "";
+            }
+            if (!gender) {
+                document.getElementById("error4").innerHTML = "Please select Gender"
+                valid = false;
+            }
+            if (!phone) {
+                document.getElementById("error5").innerHTML = "Please enter Phone Number";
+                valid = false;
+            }
+            else if ((phone.length) != 10) {
+                document.getElementById("error5").innerHTML = "Please enter 10 digits Phone Number";
+                valid = false;
+            }
+            else if (ValidPhoneNumber(phone)) {
+                document.getElementById("error5").innerHTML = "Its Already Exists";
+                valid = false;
+            }
+            else {
+                document.getElementById("error5").innerHTML = "";
+            }
+            if (!email) {
+                document.getElementById("error6").innerHTML = "Please enter Email";
+                valid = false;
+            }
+
+            else if (!ValidateEmail(email)) {
+                document.getElementById("error6").innerHTML = "Please enter valid Email";
+                valid = false;
+            }
+            else if (ValidExistemail(email)) {
+                document.getElementById("error6").innerHTML = "This Email Address is already Exists";
+                valid = false;
+            }
+            else {
+                document.getElementById("error6").innerHTML = "";
+            }
+
+            if (!valid) return;
+            let o = {
+                id: uuidv4(),
+                fname: fname,
+                lname: lname,
+                gender: gender,
+                dob: dob,
+                email: email,
+                phone: phone,
+                state: state,
+                city: city
+            };
+
+            console.log(o);
+            users.push(o);
+            arrayObject();
+            saveLocalStorage()
+            clearform();
+            //alert("created successfully");
+            $('#adddata').modal('hide');
+            // $('#savedata').modal('show');
+            saveToast();
+
+        }
+
+        //Deleting an particular student details
+        let deleteuser = null;
+        function deletedata(button) {
+            deleteuser = button.getAttribute('elementdeleteid');
+            $("#deletedata").modal("show");
+        }
+        function deleteok() {
+            if (deleteuser !== null) {
+                //let deletenum=Number(deleteuser);
+                users = users.filter(user => user.id !== deleteuser);
+                // alert("entered")
+                studentdisplay.queryset = users;
+                saveLocalStorage();
+                arrayObject();
+                deleteuser = null;
+                $("#deletedata").modal("hide");
+                deleteToast();
+
+            }
+        }
+        function deletecancel() {
+            deleteuser = null;
+            $("#deletedata").modal("hide");
+        }
+
+        //upadting details of studentregisteration
+        let updateuser = null;
+        let edituserid = null;
+        function editdata(button) {
+            let updateuser = button.getAttribute('elementupdateid');
+            if (updateuser !== null) {
+
+                $("#adddata").modal("show");
+                document.getElementById('phone').disabled = true;
+                let edituser = users.find(ele => ele.id === updateuser);
+                if (edituser) {
+                    edituserid = edituser.id;
+                    document.getElementById('firstName').value = edituser.fname;
+                    document.getElementById('lastName').value = edituser.lname;
+                    document.querySelectorAll('input[name="gender"]').forEach(i => {
+                        i.checked = i.value.toLowerCase() === edituser.gender.toLowerCase();
+                    });
+                    document.getElementById("email").value = edituser.email;
+                    document.getElementById("dob").value = edituser.dob;
+
+                    document.getElementById("phone").value = edituser.phone;
+                    document.querySelector("#state").value = edituser.state;
+                    placecity();
+                    document.querySelector("#city").value = edituser.city;
+
+                    document.getElementById("save").classList.add('d-none');
+                    document.getElementById('update').classList.remove('d-none');
+                    document.getElementById("city").disabled = true;
+                }
+            }
+        }
+
+        document.getElementById('update').addEventListener('click', function () {
+            let fname = document.getElementById("firstName").value;
+            let lname = document.getElementById("lastName").value;
+            let gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+            let email = document.getElementById("email").value;
+            let dob = document.getElementById("dob").value;
+            let state = document.querySelector('#state').value;
+            let city = document.querySelector('#city').value;
+            if (edituserid != null) {
+                let user = users.find(ele => ele.id === edituserid);
+                user.fname = fname;
+                user.lname = lname;
+                user.gender = gender,
+                    user.dob = dob;
+                user.email = email;
+                user.state = state;
+                user.city = city;
+                let valid = true;
+
+                if (!user.fname) {
+                    document.getElementById("error2").innerHTML = "Please enter Firstname"
+                    valid = false;
+                }
+                else if (!ValidName(user.fname)) {
+                    document.getElementById("error2").innerHTML = "Please enter valid Firstname";
+                    valid = false;
+                }
+                else {
+                    document.getElementById("error2").innerHTML = "";
+                }
+                if (!user.lname) {
+                    document.getElementById("error3").innerHTML = "Please enter Lastname"
+                    valid = false;
+                }
+                else if (!ValidName(user.lname)) {
+                    document.getElementById("error3").innerHTML = "Please enter valid Lastname";
+                    valid = false;
+                }
+                else {
+                    document.getElementById("error3").innerHTML = "";
+                }
+                if (!user.gender) {
+                    document.getElementById("error4").innerHTML = "Please select Gender";
+                    valid = false;
+                }
+                // if (!user.phone) {
+                //     document.getElementById("error5").innerHTML = "Please enter Phone Number";
+                //     valid = false;
+                // }
+                // else if ((user.phone.length) != 10) {
+                //     document.getElementById("error5").innerHTML = "Please enter 10 digits Phone Number";
+                //     valid = false;
+                // }
+                // else if (!ValidPhoneNumberupdate(user.phone, user, users)) {
+                //     document.getElementById("error5").innerHTML = "Phone Number already Exists";
+                //     valid = false;
+                // }
+                // else if (!ValidPhoneNumberupdate(user.phone, user, users)) {
+                //     document.getElementById("error5").innerHTML = "Please enter valid Phone Number";
+                //     valid = false;
+                // }
+                else {
+                    document.getElementById("error5").innerHTML = "";
+                }
+                if (!user.email) {
+                    document.getElementById("error6").innerHTML = "Please enter Email";
+                    valid = false;
+                }
+                else if (!Validemailupdate(user.email, user, users)) {
+                    document.getElementById("error6").innerHTML = "This Email Address is already Exists";
+                    valid = false;
+                }
+
+                else if (!Validemailupdate(user.email, user, users)) {
+                    document.getElementById("error6").innerHTML = "Please enter Valid email address";
+                    valid = false;
+                }
+                else {
+                    document.getElementById("error6").innerHTML = "";
+                }
+                if (!valid) return;
+
+                saveLocalStorage()
+                arrayObject();
+                clearform();
+                $('#adddata').modal('hide');
+                document.getElementById('update').classList.add('d-none');
+                document.getElementById('save').classList.remove('d-none');
+                document.getElementById("phone").disabled = false;
+                edituserid = null;
+                $('#adddata').modal('hide');
+                updateToast();
+            }
+            updateuser = null;
+        });
+
+        //disabling phonenmber in while updating user details
+        document.getElementById("save").addEventListener("click", addstudent);
+        document.getElementById("addNewUser").addEventListener("click", function () {
+            $("#adddata").modal("show");
+            document.getElementById('phone').removeAttribute('disabled');
+        });
+
+        //Getting filtered or search data
+        let result = [];
+        document.getElementById('searchbutton').addEventListener('click', searchdetails);
+        function searchdetails() {
+            document.getElementById('tblBody').innerHTML = "";
+            document.getElementById('noresulterror').innerHTML = "";
+            document.getElementById('searcherror').innerHTML = "";
+            let name = document.getElementById("textbox").value.trim();
+            if (name) {
+                let getdata = name.toUpperCase();
+                // result = users.filter(item => JSON.stringify(item).toUpperCase().indexOf(getdata) > -1);
+                //alert(result);
+                let result = users.filter(item =>
+                    (item.fname && item.fname.toUpperCase().includes(getdata)) ||
+                    (item.lname && item.lname.toUpperCase().includes(getdata)) ||
+                    (item.gender && item.gender.toUpperCase().includes(getdata)) ||
+                    (item.email && item.email.toUpperCase().includes(getdata)) ||
+                    (item.phone && item.phone.includes(getdata)) ||
+                    (item.dob && item.dob.includes(getdata)) ||
+                    (item.state && item.state.toUpperCase().includes(getdata)) ||
+                    (item.city && item.city.toUpperCase().includes(getdata))
+
+                );
+                if (result.length > 0) {
+                    studentdisplaysearch.queryset = result;
+                    studentdisplaysearch.page = 1;
+                    arrayobjectdisplay(result);
+                }
+                else {
+                    document.getElementById('noresulterror').innerHTML = "No Data Found";
+                }
+            } else {
+                document.getElementById('searcherror').innerHTML = "Please enter value";
+                arrayObject();
+            }
+        }
+
+        //Displaying search or filter data
+        let studentdisplaysearch = {
+            'queryset': users,
+            'page': 1,
+            'rows': 5,
+            'window': 5
+        }
+
+        function arrayobjectdisplay() {
+            let paginationData = pagination(studentdisplaysearch.queryset, studentdisplaysearch.page, studentdisplaysearch.rows);
+            let data = "";
+
+            paginationData.queryset.forEach((element, index) => {
+                let indexnum = (studentdisplaysearch.page - 1) * studentdisplaysearch.rows + index + 1;
+                data += `<tr>
+            <td>${indexnum}</td>
+            <td>${element.fname}</td>
+            <td>${element.lname}</td>    
+            <td>${element.gender}</td>
+            <td>${element.email}</td>
+            <td>${element.dob}</td>
+            <td>${element.phone}</td>
+            <td>${element.state}</td>
+            <td>${element.city}</td>
+            <td><button class="text-danger border-0 bg-transparent" onclick="deletedata(this)" elementdeleteid="${element.id}"><i class="fa-solid fa-trash"></i></button></td>
+            <td><button class="text-primary border-0 bg-transparent" onclick="editdata(this)" elementupdateid="${element.id}"><i class="fa-solid fa-pen-to-square"></i></button></td>
+        </tr>`;
+            });
+
+            document.getElementById("tblBody").innerHTML = data;
+            pagebutton(paginationData.pages);
+        }
+
+
+        //buttons to display pagebuttons
+        function pagebuttonsearch(pages) {
+            document.getElementById('paginationdisplay').innerHTML = "";
+
+            let maxleft = (studentdisplay.page - Math.floor(studentdisplay.window / 2));
+            let maxright = (studentdisplay.page + Math.floor(studentdisplay.window / 2));
+
+            if (maxleft < 1) {
+                maxleft = 1;
+                maxright = studentdisplay.window;
+            }
+
+            if (maxright > pages) {
+                maxleft = pages - (studentdisplay.window - 1);
+                maxright = pages;
+                if (maxleft < 1) {
+                    maxleft = 1;
+                }
+            }
+            if (studentdisplay.page < 1) {
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${studentdisplay.page - 1}" class="btn btn-md btn-info page m-1"><i class="fa-solid fa-angles-left"></i></button>`;
+            }
+            for (let page = maxleft; page <= maxright; page++) {
+                let className = 'btn btn-md m-1 page ';
+                if (page === studentdisplay.page) {
+                    className += 'btn-dark fw-bold';
+                } else {
+                    className += 'btn-info';
+                }
+
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${page}" class="${className}">${page}</button>`;
+            }
+            if (studentdisplay.page > pages) {
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${studentdisplay.page - 1}" class="btn btn-md btn-info page m-1"><i class="fa-solid fa-angles-right"></i></button>`;
+            }
+            let pageButtons = document.getElementsByClassName('page');
+            for (let i = 0; i < pageButtons.length; i++) {
+                pageButtons[i].addEventListener('click', function () {
+                    studentdisplay.page = Number(this.value);
+                    arrayobjectdisplay();
+                });
+            }
+        }
+        //Highlighting nav bar by clicking 
+        let item = document.querySelectorAll('.head-item');
+        let presentPage = window.location.href;
+
+        item.forEach(ele => {
+            if (ele.href === presentPage) {
+                ele.classList.add("active");
+            }
+            ele.addEventListener('click', () => {
+                item.forEach(l => l.classList.remove("active"));
+                ele.classList.add("active");
+            });
+        });
+        //input function
+        document.getElementById("firstName").oninput = function () {
+            if (this.value) document.getElementById("error2").innerHTML = "";
+        }
+        document.getElementById("lastName").oninput = function () {
+            if (this.value) document.getElementById("error3").innerHTML = "";
+        }
+        document.getElementsByName("gender").forEach(radio => {
+            radio.onchange = function () {
+                document.getElementById("error4").innerHTML = "";
+            }
+        });
+        document.getElementById("phone").oninput = function () {
+            if (this.value) document.getElementById("error5").innerHTML = "";
+        }
+
+        document.getElementById("email").oninput = function () {
+            if (this.value) document.getElementById("error6").innerHTML = "";
+        }
+        document.getElementById("textbox").oninput = function () {
+            if (this.value) document.getElementById("searcherror").innerHTML = "";
+            document.getElementById("searchbutton").disabled = false;
+            document.getElementById("clear").disabled = false;
+        }
+        //form is cleared after clicking save button
+        function clearform() {
+            document.getElementById("firstName").value = "";
+            document.getElementById("lastName").value = "";
+            document.querySelectorAll('input[name="gender"]').forEach(ele => ele.checked = false);
+            document.getElementById("email").value = "";
+            document.getElementById("dob").value = "";
+            document.getElementById("error6").innerHTML = "";
+            document.querySelector("#state").value = "";
+            document.querySelector("#city").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("error2").innerHTML = "";
+            document.getElementById("error3").innerHTML = "";
+            document.getElementById("error4").innerHTML = "";
+            document.getElementById("error5").innerHTML = "";
+            document.getElementById("city").disabled = true;
+            document.getElementById("save").classList.remove("d-none");
+            document.getElementById("update").classList.add("d-none");
+
+        }
+        //Clearing search button  
+        function clearbutton() {
+            document.getElementById('textbox').value = "";
+            document.getElementById('noresulterror').innerHTML = "";
+            document.getElementById('searcherror').innerHTML = "";
+            arrayObject();
+            studentdisplaysearch.queryset = result;
+            studentdisplaysearch.page = 1;
+            document.getElementById("searchbutton").disabled = true;
+            document.getElementById("clear").disabled = true;
+        }
+        document.getElementById("ascendingorder").addEventListener('click', function () {
+            //alert("entered function");
+            document.getElementById("uparrowfirstname").classList.add("text-primary");
+            document.getElementById("downarrowfirstname").classList.remove("text-primary");
+            let ascsortdata = users.sort((a, b) => a.fname.localeCompare(b.fname));
+            arrayObject(ascsortdata)
+        });
+        document.getElementById("descendingorder").addEventListener('click', function () {
+            // alert("entered function");
+           document.getElementById("uparrowfirstname").classList.remove("text-primary");
+            document.getElementById("downarrowfirstname").classList.add("text-primary");
+            let dessortdata = users.sort((a, b) => b.fname.localeCompare(a.fname));
+            arrayObject(dessortdata);
+        });
+        document.getElementById("ascendingorderlastname").addEventListener('click', function () {
+            //alert("entered function")
+            document.getElementById("uparrowlastname").classList.add("text-primary");
+            document.getElementById("downarrowlastname").classList.remove("text-primary");
+            let ascsortdata = users.sort((a, b) => a.lname.localeCompare(b.lname));
+            arrayObject(ascsortdata)
+        });
+        document.getElementById("descendingorderlastname").addEventListener('click', function () {
+            // alert("entered function");
+             document.getElementById("uparrowlastname").classList.remove("text-primary");
+            document.getElementById("downarrowlastname").classList.add("text-primary");
+            let dessortdata = users.sort((a, b) => b.lname.localeCompare(a.lname));
+            arrayObject(dessortdata);
+        });
+
+    </script>
+</body>
+
+</html>

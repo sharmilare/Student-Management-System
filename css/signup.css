@@ -1,0 +1,22 @@
+body {
+            background-color: whitesmoke;
+        }
+        .form{
+            margin-top: 30px; 
+            padding: 35px;
+            background-color: white;
+        }
+        #signup{
+             color: #3e4095;
+        }
+         #sigupbutton {
+            background-color: #dcdfff;   
+            color: #3e4095;
+            font-size: 17px;
+        }
+         #eyebutton{
+        padding-left: 302px;
+        }
+        #eyebutton1{
+            padding-left: 237px;
+        }

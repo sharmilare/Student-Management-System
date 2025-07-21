@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="../css/home.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid">
+
+    <nav class="navbar navbar-expand-lg" id="header">
+      <a href="../html/Homepage.html">
+        <img src="../assests/login.jpg" id="logo" class="rounded-circle" alt="Logo" />
+      </a>
+
+      <div class="d-flex justify-content-center m-3 font-weight-bold">
+        Student Management System
+      </div>
+
+      <div class="navbar-collapse justify-content-end mx-2 font-weight-bold">
+        <a href="../html/Homepage.html" class="mx-3 head-item">Home</a>
+        <a href="../html/StudentRegisteration.html" class="mx-3 head-item">New Registration</a>
+        <a href="../html/addState.html" class="mx-3 head-item">State</a>
+        <a href="../html/addcity.html" class="mx-3 head-item">City</a>
+        <a href="../html/LoginPage.html?status=signout">
+          <span class="text-danger font-weight-bold"><i class="fas fa-sign-out-alt"></i> Sign Out</span>
+        </a>
+      </div>
+    </nav>
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <div class="image-body">
+          <img src="../assests/newregisteration.jpg" id="image" class="rounded" />
+          <div class="content1 text-center font-weight-bold">
+            <a href="../html/StudentRegisteration.html" class="text-light text-decoration-none">New
+              Registration</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 text-center">
+        <div class="image-body position-relative">
+          <img src="../assests/state.jpg" id="image" class="rounded" />
+          <div class="content2 text-center font-weight-bold">
+            <a href="../html/addState.html" class="text-light text-decoration-none">State</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-4 text-right">
+        <div class="image-body">
+          <img src="../assests/city.jpg" id="image" class="rounded" />
+          <div class="content3 text-center font-weight-bold">
+            <a href="../html/addcity.html" class="text-light text-decoration-none">City</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    let item = document.querySelectorAll('.head-item');
+    let presentPage = window.location.href;
+
+    item.forEach(ele => {
+      if (ele.href === presentPage) {
+        ele.classList.add("active");
+      }
+      ele.addEventListener('click', () => {
+        item.forEach(l => l.classList.remove("active"));
+        ele.classList.add("active");
+      });
+    });
+  </script>
+</body>
+
+</html>

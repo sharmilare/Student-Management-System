@@ -1,0 +1,35 @@
+ body {
+            background-color: whitesmoke;
+        }
+
+        #login {
+            margin-top: 68px;
+            padding-top: 23px;
+            background-color: white;
+        }
+
+        #loginid {
+            color: #3e4095;
+        }
+
+        #loginlabel {
+            font-size: 17px;
+        }
+
+        #loginButton {
+            background-color: #dcdfff;
+            color: #3e4095;
+            font-size: 17px;
+        }
+
+        #eyebutton {
+            padding-left: 175px;
+        }
+        .toast {
+    position: fixed; 
+    top: 40px; 
+    right: 20px; 
+    font-size: 5px;
+    margin: 0px;
+    padding: 0px;
+}

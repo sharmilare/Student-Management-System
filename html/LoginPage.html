@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Login</title>
+    <link href="../css/login.css" rel="stylesheet">
+    <link href="../css/toast.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center shadow-sm p-3 mb-5 bg-white rounded"
+            id="login">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <image src="../assests/login.jpg" style="width:333px;height:286px;"></image>
+            </div>
+            <div class="col-md-4">
+                <form id="loginform">
+                    <div class="font-weight-bold h3 text-center" id="loginid">
+                        Student Login
+                    </div>
+                    <div class="mb-3">
+                        <div><label class="text-dark form-label font-weight-bold" id="loginlabel">Email</label></div>
+                        <div> <input type="email" placeholder="Enter Email" class="form-control" id="email"></div>
+                        <div id="emailerror" class="text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <div><label class="text-dark form-label font-weight-bold" id="loginlabel">Password</label>
+                        </div>
+
+                        <div><input type="password" placeholder="Enter Password" class="form-control" id="password">
+                        </div>
+                        <div><input type="checkbox" onclick="showPassword()">
+                            <label>Show Password</label>
+                        </div>
+                        <div id="passworderror" class="text-danger"></div>
+                    </div>
+                    <div class="mb-2">
+                        <button type="button" class="form-control" id="loginButton">Login</button>
+                    </div>
+                    <div id="invalid" class="text-danger text-center"></div>
+                    <div class="text-center mb-4">
+                        <span class="text-dark">New User? </span><a href="../html/Signuppage.html">Signup!</a>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="toastdisplay" id="signouttoast">
+            <div class="toastdisplay-content">
+                <i class="fas fa-check"></i>
+                <div class="message">
+                    <span class="text">You have Signout Successfully</span>
+                </div>
+            </div>
+            <i class="fas fa-times close" id="closesignoutToast"></i>
+            <div class="progress" id="signoutprogressBar"></div>
+        </div>
+
+    </div>
+    <script src="../javascript/signouttoast.js"></script>
+    <script>
+
+
+
+        let loginDetails = [{
+        }]
+
+        //Validating a email
+        function validateEmail(email) {
+            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            return pattern.test(email);
+        }
+        //visibility of password
+        function showPassword() {
+            let p = document.getElementById("password");
+            if (p.type === "password") {
+                p.type = "text";
+            }
+            else {
+                p.type = "password";
+            }
+        }
+        function loginValidation() {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let valid = true;
+            if (!email) {
+                document.getElementById("emailerror").innerHTML = "Please enter a email";
+                valid = false;
+            }
+            else if (!validateEmail(email)) {
+                document.getElementById("emailerror").innerHTML = "Please enter a valid Email addresss";
+                valid = false;
+            }
+            if (!password) {
+                document.getElementById('passworderror').innerHTML = "Please enter a Password";
+                valid = false;
+            }
+
+
+            if (!valid) return;
+            // console.log("heeloo")
+            let userLogin = {
+                email: email,
+                password: password
+            };
+            loginDetails.push(userLogin);
+            console.log(loginDetails);
+            // console.log("loginsuccessfully")
+            //    let loginUsers= localStorage.setItem('login',JSON.stringify(loginDetails));
+            //    let s=JSON.parse(localStorage.getItem('login'));
+            //console.log(s);
+
+            let signdata = JSON.parse(localStorage.getItem('signup'));
+            console.log(signdata);
+            let check
+            if (signdata) {
+                check = signdata.some((ele) => {
+                    return ele.email === email && ele.password === password;
+                });
+                // console.log(check);
+            }
+
+            if (check) {
+                window.location.href = "Homepage.html"
+            }
+            else {
+                document.getElementById('invalid').innerHTML = "Invalid Credentials! You have to SignIn";
+                return;
+
+            }
+            //clearform();  
+        }
+
+
+        document.getElementById('email').oninput = function () {
+            if (this.value) document.getElementById('emailerror').innerHTML = "";
+        }
+        document.getElementById('password').oninput = function () {
+            if (this.value) document.getElementById('passworderror').innerHTML = "";
+        }
+
+        document.getElementById('loginButton').addEventListener('click', loginValidation);
+
+        function clearform() {
+            document.getElementById("loginform").reset();
+            document.getElementById('email').value = "";
+            document.getElementById('password').value = "";
+            document.getElementById('emailerror').innerHTML = "";
+            document.getElementById('passworderror').innerHTML = "";
+            document.getElementById('invalid').innerHTML = "";
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            clearform();
+        });
+
+        if (window.location.search.includes("status=signout")) {
+            signoutToast();
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>City</title>
+    <link href="../css/city.css" rel="stylesheet">
+    <link href="../css/toast.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg" id="header">
+            <a href="../html/Homepage.html">
+                <img src="../assests/login.jpg" id="logo" class="rounded-circle" alt="Logo" />
+            </a>
+
+            <div class="d-flex justify-content-center m-3 font-weight-bold">
+                Student Management System
+            </div>
+
+            <div class="navbar-collapse justify-content-end mx-2 font-weight-bold">
+                <a href="../html/Homepage.html" class="mx-3 head-item">Home</a>
+                <a href="../html/StudentRegisteration.html" class="mx-3 head-item">New Registration</a>
+                <a href="../html/addState.html" class="mx-3 head-item">State</a>
+                <a href="../html/addcity.html" class="mx-3 head-item">City</a>
+                <a href="../html/LoginPage.html?status=signout">
+                    <span class="text-danger font-weight-bold"><i class="fas fa-sign-out-alt"></i> Sign Out</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="d-flex justify-content-end">
+                    <div class="mr-2">
+                        <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addmodalcity"><i
+                                class="fa-solid fa-plus"></i>&nbsp;Add City</button>
+                    </div>
+                    <div class="d-flex mr-2 mt-3">
+                        <input class="form-control" type="text" placeholder="Enter City Name" id="textboxcity"
+                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')">
+                        <button class="btn btn-primary pb-0 pt-0   text-center ml-md-n1" type="submit"
+                            id="searchbutton"><span class="text-center">Search</span></button>
+
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-warning text-light" onclick="clearbutton()">Clear</button>
+                    </div>
+                </div>
+                <div id="searcherror" class="text-danger text-center"></div>
+                <div>
+
+                    <table class="table table-bordered table-striped mt-2 mb-2">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>State</th>
+                                <th>City</th>
+                                <th>Status</th>
+                                <th>Delete</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablebody">
+                        </tbody>
+                    </table>
+                    <div id="noresulterror" class="text-center text-danger h4"></div>
+                </div>
+
+            </div>
+        </div>
+        <div id="paginationfixed">
+            <div id="paginationdisplay" class="d-flex justify-content-center"></div>
+        </div>
+
+        <div class="col-md-3"></div>
+    </div>
+    <!-- add modal city  -->
+    <div class="modal fade" role="dialog" id="addmodalcity">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0 text-info font-weight-bold h4">
+                    Add city
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <label class="form-label font-weight-bold" placeholder="Enter StateName">State<span
+                                class="text-danger">*</span></label>
+                        <div>
+                            <select id="state" class="form-control"></select>
+                        </div>
+                        <div class="text-danger" id="stateerror"></div>
+                        <label class="form-label font-weight-bold">City<span class="text-danger">*</span></label>
+                        <input class="form-control mb-2" id="cityname" type="text">
+                        <div class="text-danger" id="cityerror"></div>
+                        <label class="form-label font-weight-bold">Status<span class="text-danger">*</span></label>
+                        <div>
+                            <input type="radio" name="status" value="Active" class="ml-1"> <label>Active</label>
+                            <input type="radio" name="status" value="Inactive" class="mr-1"><label>Inactive</label>
+                        </div>
+                        <div class="text-danger" id="statuserror"></div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success mr-3" id="save">Save</button>
+                    <button class="btn btn-primary d-none" id="update">Update</button>
+                    <button class="btn btn-danger" id="cancel" onclick="clearform()"
+                        data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Confirmation -->
+    <div class="modal fade" role="dialog" id="deletemodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="font-weight-bold">Delete Confirmation</div>
+                </div>
+                <div class="modal-body">
+                    <div>Are you sure you want to delete it.....</div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success mr-2" onclick="deleteok()">Ok</button>
+                    <button class="btn btn-danger" onclick="deletecancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- save toast -->
+    <!-- <div class="toast-container position-fixed">
+        <div class="toast toast-md" id="savetoast" role="alert">
+            <div class="toast-body text-success font-weight-bold h4">
+                Record Created Successfully
+            </div>
+        </div>
+    </div> -->
+    <!-- Toast -->
+    <div class="toastdisplay" id="savetoast">
+        <div class="toastdisplay-content">
+            <i class="fas fa-check"></i>
+            <div class="message">
+                <span class="text">Record Created Successfully</span>
+            </div>
+        </div>
+        <i class="fas fa-times close" id="closesaveToast"></i>
+        <div class="progress" id="saveprogressBar"></div>
+    </div>
+
+    <!-- delete toast -->
+    <div class="toastdisplay" id="deletetoast">
+        <div class="toastdisplay-content">
+            <i class="fas fa-check"></i>
+            <div class="message">
+                <span class="text">Record Deleted Successfully</span>
+            </div>
+        </div>
+        <i class="fas fa-times close" id="closedeleteToast"></i>
+        <div class="progress" id="deleteprogressBar"></div>
+    </div>
+
+    <!-- update toast -->
+    <div class="toastdisplay" id="updatetoast">
+        <div class="toastdisplay-content">
+            <i class="fas fa-check"></i>
+            <div class="message">
+                <span class="text">Record Updated Successfully</span>
+            </div>
+        </div>
+        <i class="fas fa-times close" id="closeupdateToast"></i>
+        <div class="progress" id="updateprogressBar"></div>
+    </div>
+    </div>
+    </div>
+    <script src="../javascript/savetoast.js"></script>
+    <script src="../javascript/deletetoast.js"></script>
+    <script src="../javascript/updatetoast.js"></script>
+    <script>
+        //Generating unique id
+        function uuidv4() {
+            return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+            );
+        }
+        //Storing CityData in localStorage
+        let cities = [];
+        if (localStorage.getItem('citydata')) {
+            cities = JSON.parse(localStorage.getItem("citydata"));
+        }
+        //Storing Update,Add,Delete data
+        function saveLocalStorage() {
+            localStorage.setItem('citydata', JSON.stringify(cities));
+        }
+        //for pagination purpose
+        let citydisplay = {
+            'queryset': cities,
+            'page': 1,
+            'rows': 5,
+            'window': 5
+        }
+        //Creating arrayObject of city
+        //It also implementing pagination when data is exceeds
+        function arrayobject() {
+            let paginationData = pagination(citydisplay.queryset, citydisplay.page, citydisplay.rows);
+            let data = '';
+
+            paginationData.queryset.forEach((ele, index) => {
+                let indexnum = (citydisplay.page - 1) * citydisplay.rows + index + 1;
+                data += ` <tr>
+            <td>${indexnum}</td>
+            <td>${ele.state}</td>
+            <td>${ele.city}</td>
+            <td>${ele.status}</td>
+            <td>
+                <button class="text-danger border-0 bg-transparent" onclick="deletecity('${ele.id}')">
+    <i class="fa-solid fa-trash"></i>
+  </button>
+            </td>
+            <td>
+                <button class="text-primary border-0 bg-transparent" elementupdateid="${ele.id}" onclick="edit(this)">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </td>
+            </tr>`;
+            });
+
+            document.getElementById("tablebody").innerHTML = data;
+            pagebutton(paginationData.pages);
+        }
+        arrayobject();
+        //pagination numbers
+        function pagination(queryset, page, rows) {
+            let trimstart = (page - 1) * rows;
+            let trimend = trimstart + rows
+            let trimenddata = queryset.slice(trimstart, trimend);
+            let pages = Math.ceil(queryset.length / rows);
+            return {
+                'queryset': trimenddata,
+                'pages': pages
+            }
+        }
+        //pagination buttons for displaying details
+        function pagebutton(pages) {
+            document.getElementById('paginationdisplay').innerHTML = "";
+            let maxleft = (citydisplay.page - Math.floor(citydisplay.window / 2));
+            let maxright = (citydisplay.page + Math.floor(citydisplay.window / 2));
+            if (maxleft < 1) {
+                maxleft = 1;
+                maxright = citydisplay.window;
+            }
+
+            if (maxright > pages) {
+                maxleft = pages - (citydisplay.window - 1);
+                maxright = pages;
+                if (maxleft < 1) {
+                    maxleft = 1;
+                }
+            }
+            if (citydisplay.page > 1) {
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${citydisplay.page - 1}" class="btn btn-md btn-info page m-1"><i class="fa-solid fa-angles-left"></i></button>`;
+            }
+
+            for (let page = maxleft; page <= maxright; page++) {
+                let className = 'btn btn-md m-1 page ';
+                if (page === citydisplay.page) {
+                    className += 'btn-dark fw-bold';
+                } else {
+                    className += 'btn-info';
+                }
+
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${page}" class="${className}">${page}</button>`;
+            }
+            if (citydisplay.page < pages) {
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${citydisplay.page + 1}" class="btn btn-md btn-info page m-1"><i class="fa-solid fa-angles-right"></i></button>`;
+            }
+
+            let pageButtons = document.getElementsByClassName('page');
+            for (let i = 0; i < pageButtons.length; i++) {
+                pageButtons[i].addEventListener('click', function () {
+                    citydisplay.page = Number(this.value);
+                    arrayobject();
+                });
+            }
+        }
+
+
+        //     function arrayObjectdisplay(dataelement) {
+        //         let data = '';
+
+        //         dataelement.forEach((ele, index) => {
+        //             data += ` <tr>
+        //     <td>${index + 1}</td>
+        //     <td>${ele.state}</td>
+        //     <td>${ele.city}</td>
+        //     <td>${ele.status}</td>
+        //     <td><button class="text-danger border-0 bg-transparent"  onclick="deletecity(${ele.id})"><i class="fa-solid fa-trash"></i></button></td>
+        //    <td><button class="text-primary border-0 bg-transparent" elementupdateid="${ele.id}" onclick="edit(this)"><i class="fa-solid fa-pen-to-square"></i></button></td>
+        //    </tr>`
+        //         });
+        //         document.getElementById("tablebody").innerHTML = data; //elementdeleteid="${ele.id}"
+        //     }
+
+        //functions
+        //Getting statedata from LocalStorage
+        let statedata = JSON.parse(localStorage.getItem('statedata')) || [];
+        function placestate() {
+            let data = `<option value="">Select State</select>`;
+            statedata.forEach((ele) => {
+                if (ele.status === 'Active') {
+                    data += `<option value="${ele.statename}">${ele.statename}</option>`;
+                }
+
+            });
+            document.getElementById('state').innerHTML = data;
+        }
+        placestate();
+        //validation of city
+        function cityvalidation(state, city) {
+            // let getvalidcity = cities.some(ele => ele.city === city);
+            // if (getvalidcity) {
+            //     return false;
+            // }
+            // else {
+            //     return true;
+            // }
+            let getvalid = cities.some((ele) => {
+                return ele.city.toLocaleLowerCase().trim() === city.toLowerCase().trim() && ele.state.toLowerCase().trim() === state.toLowerCase().trim();
+            });
+            if (getvalid) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        //updating unique cityname 
+        function cityvalidationupdate(state, city, data) {
+            let getvalid = cities.some((ele) => {
+                return ele.state.toLowerCase().trim() === state.toLowerCase().trim() &&
+                    ele.city.toLowerCase().trim() === city.toLowerCase().trim() &&
+                    ele.id !== data.id;
+            });
+            if (!getvalid) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        //Updating unique statename corresponds to unique cityname
+        function ValidStateName(name) {
+            var namePattern = /^[a-zA-Z\s-]+$/;
+            namevalid = name;
+
+            if (!namePattern.test(name)) {
+                return false;
+            }
+            return true;
+        }
+        //Entering unique cityname
+        function ValidCityName(name) {
+            var namePattern = /^[a-zA-Z\s-]+$/;
+            namevalid = name;
+
+            if (!namePattern.test(name)) {
+                return false;
+            }
+            return true;
+        }
+        //Adding cityData
+        function add() {
+            let state = document.getElementById('state').value;
+            let city = document.getElementById('cityname').value;
+            let status = document.querySelector('input[name="status"]:checked')?.value || '';
+
+            let valid = true;
+            if (!state) {
+                document.getElementById("stateerror").innerHTML = "Please Select Option";
+                valid = false;
+            }
+            if (!city) {
+                document.getElementById("cityerror").innerHTML = "Please enter CityName";
+                valid = false;
+            }
+            else if (!ValidCityName(city)) {
+                document.getElementById("cityerror").innerHTML = "Please enter valid CityName";
+                valid = false;
+
+            }
+            if (!cityvalidation(state, city)) {
+                document.getElementById("cityerror").innerHTML = "Its already Exits"
+                valid = false;
+            }
+            if (!status) {
+                document.getElementById("statuserror").innerHTML = "Please Select Option";
+                valid = false;
+            }
+            if (!valid) return;
+
+            let cityObject = {
+                id: uuidv4(),
+                state: state,
+                city: city,
+                status: status
+            };
+            cities.push(cityObject);
+            arrayobject();
+            clearform();
+            saveLocalStorage()
+            //console.log(cities);
+            $('#addmodalcity').modal('hide');
+            saveToast();
+        }
+        document.getElementById('save').addEventListener('click', add);
+        //delete function
+        //Deleting data from table
+        let deleteid = null;
+        function deletecity(value) {
+            deleteid = value;
+            //deleteid = button.getAttribute('elementdeleteid')
+            //deleteid = Number(deletenum);
+            $('#deletemodal').modal('show');
+        }
+        function deleteok() {
+            // alert("entered function")
+            if (deleteid !== null) {
+                //alert("entered if block")
+                cities = cities.filter(ele => ele.id !== deleteid);
+                deleteid = null;
+                //localStorage.setItem("citydata", JSON.stringify(cities));
+                citydisplay.queryset = cities;
+                saveLocalStorage();
+                arrayobject();
+                $('#deletemodal').modal('hide');
+                deleteToast();
+            }
+        }
+        function deletecancel() {
+            deleteid = null;
+            $('#deletemodal').modal('hide');
+        }
+        //update function
+        //updating data from table
+        let updateedit = null;
+        let updatecity = null;
+        function edit(button) {
+            let updateedit = button.getAttribute('elementupdateid');
+            // updateedit =Number(updatenum) ;
+            if (updateedit !== null) {
+                $('#addmodalcity').modal('show');
+                city = cities.find(ele => ele.id === updateedit)
+                if (city) {
+                    updatecity = city.id;
+                    document.getElementById('state').value = city.state;
+                    document.getElementById('cityname').value = city.city;
+                    document.querySelectorAll('input[name="status"]').forEach(ele => {
+                        ele.checked = ele.value.toLowerCase() === city.status.toLowerCase()
+                    });
+
+                    document.getElementById('save').classList.add('d-none');
+                    document.getElementById('update').classList.remove('d-none');
+                }
+            }
+        }
+
+        document.getElementById('update').addEventListener('click', function () {
+            let state = document.getElementById('state').value;
+            let city = document.getElementById('cityname').value;
+            let status = document.querySelector('input[name="status"]:checked')?.value || '';
+
+            if (updatecity !== null) {
+                let data = cities.find(ele => ele.id === updatecity);
+
+                data.state = state;
+                data.city = city;
+                data.status = status;
+                let valid = true;
+                if (!data.state) {
+                    document.getElementById("stateerror").innerHTML = "Please Select Option";
+                    valid = false;
+                }
+                if (!data.city) {
+                    document.getElementById("cityerror").innerHTML = "Please enter CityName";
+                    valid = false;
+                }
+                else if (!ValidCityName(data.city)) {
+                    document.getElementById("cityerror").innerHTML = "Please enter valid CityName";
+                    valid = false;
+
+                }
+                if (!cityvalidationupdate(data.state, data.city, data)) {
+                    document.getElementById("cityerror").innerHTML = "Its already Exits"
+                    valid = false;
+                }
+                if (!data.status) {
+                    document.getElementById("statuserror").innerHTML = "Please Select Option";
+                    valid = false;
+                }
+                if (!valid) return;
+
+                arrayobject();
+                clearform();
+                saveLocalStorage()
+                $('#addmodalcity').modal('hide');
+                updateToast();
+                document.getElementById('update').classList.add('d-none');
+                document.getElementById('save').classList.remove('d-none');
+
+            }
+        });
+
+        //Filtering data from table  
+        let citydisplaysearch = {
+            'queryset': cities,
+            'page': 1,
+            'rows': 5,
+            'window': 5
+        }
+        //Getting details to filter data
+        let result = []
+        document.getElementById('searchbutton').addEventListener('click', function () {
+            let name = document.getElementById("textboxcity").value.replace(/\s+/g, "").toLowerCase();
+
+            document.getElementById("tablebody").innerHTML = "";
+            if (name) {
+                result = cities.filter(ele => ele.city.replace(/\s+/g, "").toLowerCase().includes(name));
+
+                if (result.length > 0) {
+                    citydisplaysearch.queryset = result;
+                    citydisplaysearch.page = 1;
+                    arrayObjectdisplay(result);
+
+                }
+                else {
+                    document.getElementById('noresulterror').innerHTML = "No Data Found";
+                }
+            }
+            else {
+                document.getElementById('searcherror').innerHTML = "Please enter value";
+                citydisplaysearch.queryset = result;
+                citydisplaysearch.page = 1;
+                arrayobject();
+            }
+        });
+
+        //Displaying data when search or filter data is exceeds
+        // used to display the search data or filter data
+        function arrayObjectdisplay() {
+            let paginationData = pagination(citydisplaysearch.queryset, citydisplaysearch.page, citydisplaysearch.rows);
+            let data = '';
+            paginationData.queryset.forEach((ele, index) => {
+                let indexnum = (citydisplaysearch.page - 1) * citydisplaysearch.rows + index + 1;
+                data += `
+        <tr>
+            <td>${indexnum}</td>
+            <td>${ele.state}</td>
+            <td>${ele.city}</td>
+            <td>${ele.status}</td>
+            <td>
+                <button class="text-danger border-0 bg-transparent" onclick="deletecity('${ele.id}')">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </td>
+            <td>
+                <button class="text-primary border-0 bg-transparent" elementupdateid="${ele.id}" onclick="edit(this)">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </td>
+        </tr>`;
+            });
+
+            document.getElementById("tablebody").innerHTML = data;
+            pagebuttonsearch(paginationData.pages);
+
+        }
+        //buttons to display pagebuttons
+        function pagebuttonsearch(pages) {
+            document.getElementById('paginationdisplay').innerHTML = "";
+
+            let maxleft = (citydisplaysearch.page - Math.floor(citydisplaysearch.window / 2));
+            let maxright = (citydisplaysearch.page + Math.floor(citydisplaysearch.window / 2));
+
+
+            if (maxleft < 1) {
+                maxleft = 1;
+                maxright = citydisplaysearch.window;
+            }
+
+            if (maxright > pages) {
+                maxleft = pages - (citydisplaysearch.window - 1);
+                maxright = pages;
+                if (maxleft < 1) {
+                    maxleft = 1;
+                }
+            }
+            if (citydisplaysearch.page >1) {
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${citydisplaysearch.page-1}" class="btn btn-md btn-info page m-1"><i class="fa-solid fa-angles-left"></i></button>`;
+            }
+            for (let page = maxleft; page <= maxright; page++) {
+                let className = 'btn btn-md m-1 page ';
+                if (page === citydisplaysearch.page) {
+                    className += 'btn-dark fw-bold';
+                } else {
+                    className += 'btn-info';
+                }
+
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${page}" class="${className}">${page}</button>`;
+            }
+            if (citydisplaysearch.page < pages) {
+                document.getElementById('paginationdisplay').innerHTML +=
+                    `<button value="${citydisplaysearch.page+1}" class="btn btn-md btn-info page m-1"><span><i class="fa-solid fa-angles-right"></i></span></button>`;
+            }
+            let pageButtons = document.getElementsByClassName('page');
+            for (let i = 0; i < pageButtons.length; i++) {
+                pageButtons[i].addEventListener('click', function () {
+                    citydisplaysearch.page = Number(this.value);
+                    arrayObjectdisplay();
+                });
+            }
+        }
+
+        //Clearing the form
+        function clearform() {
+            document.getElementById('state').value = "";
+            document.getElementById('cityname').value = "";
+            document.querySelectorAll('input[name="status"]').forEach((ele) => {
+                ele.checked = false;
+            });
+            document.getElementById('stateerror').innerHTML = "";
+            document.getElementById('cityerror').innerHTML = "";
+            document.getElementById('statuserror').innerHTML = "";
+            document.getElementById('save').classList.remove('d-none');
+            document.getElementById('update').classList.add('d-none');
+        }
+        //clearing data in search bar
+        function clearbutton() {
+            document.getElementById('textboxcity').value = "";
+            document.getElementById('noresulterror').innerHTML = "";
+            document.getElementById('searcherror').innerHTML = "";
+            citydisplaysearch.queryset = result;
+            citydisplaysearch.page = 1;
+            arrayobject();
+
+        }
+        //input functions
+        document.getElementById('state').oninput = function () {
+            if (this.value) document.getElementById('stateerror').innerHTML = "";
+        }
+        document.getElementById('cityname').oninput = function () {
+            if (this.value) document.getElementById('cityerror').innerHTML = "";
+        }
+        document.getElementsByName('status').forEach(ele => ele.onchange = function () {
+            document.getElementById('statuserror').innerHTML = "";
+        });
+
+        //Highlighting pages in navbar
+        let item = document.querySelectorAll('.head-item');
+        let presentPage = window.location.href;
+
+        item.forEach(ele => {
+            if (ele.href === presentPage) {
+                ele.classList.add("active");
+            }
+            ele.addEventListener('click', () => {
+                item.forEach(l => l.classList.remove("active"));
+                ele.classList.add("active");
+            });
+        });
+    </script>
+</body>
+
+</html>

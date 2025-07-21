@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Signup</title>
+    <link href="../css/signup.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form class="shadow-sm p-3 mb-5 bg-white rounded" id="signupform">
+                    <div class="font-weight-bold h3 text-center" id="signup">Signup</div>
+                    <div class="mb-3">
+                        <div><label class="form-label font-weight-bold">Email</label></div>
+                        <div><input type="email" class="form-control" id="email" placeholder="Enter Email"></div>
+                        <div id="emailerror" class="text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <div><label class="form-label font-weight-bold">Password </label></div>
+                        <div><input type="password" class="form-control" id="password" placeholder="Enter Password"></div>
+                         <div><input type="checkbox" id= "checkboxid" onclick="showPassword()">
+                            <label>Show Password</label>
+                        </div>
+                        <div id="passworderror" class="text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <div><label class="form-label font-weight-bold">Confirm Password</label></div>
+                        <div><input type="password" class="form-control" id="confirmpass" placeholder="Enter Confirm Password"></div> 
+                         <div><input type="checkbox" id= "checkboxid" onclick="showconfirmPassword()">
+                            <label>Show ConfirmPassword</label>
+                        </div>
+                        <div id="confirmpasserror" class="text-danger"></div>
+                    </div>
+                    <div class="mb-3"><button type="button" id="sigupbutton" class="form-control">Register</button></div>
+                    <div class="text-center">Already have an account? <a href="../html/LoginPage.html">Login here</a></div>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    <script>
+          let signupDetails = JSON.parse(localStorage.getItem('signup'));
+
+
+        //displaying password
+        function showPassword(){
+            let p=document.getElementById('password');
+            if(p.type === "password"){
+                p.type="text";
+            }
+            else{
+                p.type="password";
+            }
+        }
+        function showconfirmPassword(){
+            let p=document.getElementById('confirmpass');
+            if(p.type === "password"){
+                p.type = "text";
+            }
+            else{
+                p.type = "password";
+            }
+        }
+        //validating email
+         function validEmail(email) {
+            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            return pattern.test(email);
+        }
+        //checking email is already exits in signup
+        function checkEmail(email){
+            let emailExits=signupDetails.some(data =>{
+                return data.email === email;
+            });
+            if(!emailExits){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        function signupValidation(){
+            let email=document.getElementById("email").value;
+            let password=document.getElementById("password").value;
+            let confirmpass=document.getElementById("confirmpass").value;
+
+            let valid=true;
+            if(!email){
+                document.getElementById("emailerror").innerHTML="Please enter Email address";
+                valid=false;
+            }
+            else if(!validEmail(email)){
+                document.getElementById("emailerror").innerHTML="Please enter valid Email address";
+                valid=false;
+            }
+            else if(!checkEmail(email)){
+                document.getElementById("emailerror").innerHTML="This Email address is already exits";
+                valid=false;
+            }
+            if(!password){
+                document.getElementById("passworderror").innerHTML="Please enter Password";
+                valid=false;
+            }
+            if(!confirmpass){
+                document.getElementById("confirmpasserror").innerHTML="Please enter Confirm Password";
+                 valid=false;
+            }
+            else if(!(password === confirmpass)){
+                 document.getElementById("confirmpasserror").innerHTML="Please enter password correctly";
+                  valid=false;
+            }
+            if(!valid) return;
+            
+            let signupUser={
+                email:email,
+                password:password,
+                confirmpass:confirmpass,
+            };
+            signupDetails.push(signupUser);
+            // console.log(signupDetails);
+            //console.log("signup successfully");
+            localStorage.setItem('signup', JSON.stringify(signupDetails));
+           // let s=JSON.parse(localStorage.getItem('signup'));
+            // console.log(s);
+            clearform();
+            window.location.href="Homepage.html"
+
+        }
+        document.getElementById("email").oninput=function(){
+            if(this.value) document.getElementById("emailerror").innerHTML="";
+        };
+        document.getElementById("password").oninput=function(){
+            if(this.value) document.getElementById("passworderror").innerHTML="";
+        }
+        document.getElementById("confirmpass").oninput=function(){
+            if(this.value) document.getElementById("confirmpasserror").innerHTML="";
+        }
+        document.getElementById("sigupbutton").addEventListener('click',signupValidation);
+
+        function clearform(){
+            document.getElementById("signupform").reset();
+            document.getElementById('email').value="";
+            document.getElementById('password').value="";
+            document.getElementById('confirmpass').value="";
+            document.getElementById("emailerror").innerHTML="";
+            document.getElementById("passworderror").innerHTML="";
+            document.getElementById("confirmpasserror").innerHTML="";
+            document.getElementById("checkboxid").checked=false;
+           
+        }
+    </script>
+</body>
+</html>
